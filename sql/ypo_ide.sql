@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2022 at 01:36 PM
+-- Generation Time: Jan 17, 2022 at 01:45 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -34,7 +34,7 @@ CREATE TABLE `projects` (
   `likes` int(11) NOT NULL DEFAULT 0,
   `copys` int(11) NOT NULL DEFAULT 0,
   `root` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ CREATE TABLE `tasks` (
   `options` varchar(512) DEFAULT NULL,
   `applicant` varchar(16) NOT NULL,
   `handler` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `tasks` (
 CREATE TABLE `teacher_student` (
   `teacher` varchar(16) NOT NULL,
   `student` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -74,7 +74,7 @@ CREATE TABLE `users` (
   `phone` varchar(16) DEFAULT NULL,
   `password` varchar(16) NOT NULL,
   `role` varchar(16) NOT NULL DEFAULT 'USER'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -98,8 +98,8 @@ ALTER TABLE `tasks`
 -- Indexes for table `teacher_student`
 --
 ALTER TABLE `teacher_student`
-  ADD UNIQUE KEY `teacher` (`teacher`),
-  ADD UNIQUE KEY `student` (`student`);
+  ADD KEY `student` (`student`),
+  ADD KEY `teacher` (`teacher`);
 
 --
 -- Indexes for table `users`

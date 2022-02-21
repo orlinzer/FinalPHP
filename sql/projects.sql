@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2022 at 01:02 PM
+-- Generation Time: Jan 17, 2022 at 01:44 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -34,7 +34,7 @@ CREATE TABLE `projects` (
   `likes` int(11) NOT NULL DEFAULT 0,
   `copys` int(11) NOT NULL DEFAULT 0,
   `root` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables

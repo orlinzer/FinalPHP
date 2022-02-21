@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2022 at 01:02 PM
+-- Generation Time: Jan 17, 2022 at 01:45 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -33,7 +33,7 @@ CREATE TABLE `users` (
   `phone` varchar(16) DEFAULT NULL,
   `password` varchar(16) NOT NULL,
   `role` varchar(16) NOT NULL DEFAULT 'USER'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables

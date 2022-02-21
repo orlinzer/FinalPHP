@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2022 at 01:36 PM
+-- Generation Time: Jan 17, 2022 at 01:45 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `teacher_student` (
   `teacher` varchar(16) NOT NULL,
   `student` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -40,8 +40,8 @@ CREATE TABLE `teacher_student` (
 -- Indexes for table `teacher_student`
 --
 ALTER TABLE `teacher_student`
-  ADD UNIQUE KEY `teacher` (`teacher`),
-  ADD UNIQUE KEY `student` (`student`);
+  ADD KEY `student` (`student`),
+  ADD KEY `teacher` (`teacher`);
 
 --
 -- Constraints for dumped tables
