@@ -8,31 +8,25 @@
     <link rel="shortcut icon" href="logo.svg" type="image/svg+txt" />
     <title>YPO-IDE</title>
 
-    <link rel="stylesheet" href="./styles/normalize.css" />
-    <link rel="stylesheet" href="./styles/common.css" />
+    <link rel="stylesheet" href="styles/normalize.css" />
+    <link rel="stylesheet" href="styles/common.css" />
+    <link rel="stylesheet" href="views/header/header.css" />
+    <link rel="stylesheet" href="views/menu/menu.css" />
+    <link rel="stylesheet" href="views/user-menu/user-menu.css" />
+
+    <script src="views/header/header.js" defer></script>
+
   </head>
   <body>
-    <header>
-      <a class="logo" href="index.html">
-        <img src="logo.svg" alt="Logo" width="48" />
-        <h1>YPO-IDE</h1>
-      </a>
-      <div class="menu">
-        <form action="" method="post">
-          <input type="search" name="search" id="search" />
-          <input type="submit" value="search" />
-        </form>
-        <nav>
-          <a href="">Tasks</a>
-          <a href="">Users</a>
-          <a href="">Projects</a>
-          <a href="">Sign in</a>
-          <a href="">Login</a>
-          <a href="">Logout</a>
-          <a href="">About</a>
-        </nav>
-      </div>
-    </header>
+    <?php
+      require_once("header/header.php");
+      ?>
+    <?php
+      require_once("menu/menu.php");
+    ?>
+    <?php
+      require_once("user-menu/user-menu.php");
+    ?>
     <main>
       <?php
         require_once('about.html');
