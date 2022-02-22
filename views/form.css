@@ -1,0 +1,19 @@
+form {
+  width: 100%;
+}
+form ul li {
+  margin: 1em;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+}
+
+label {
+  display: block;
+  margin: 0.25em;
+}
+
+input[type="submit"] {
+   padding: 0.25em;
+   text-align: center;
+}
