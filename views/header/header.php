@@ -7,7 +7,7 @@
     title="Menu"
   >
   <a class="logo" href="index.php" title="Home">
-    <img src="logo.svg" alt="Logo" width="48" />
+    <img src="images/logo.svg" alt="Logo" width="48" />
     <h1>YPO-IDE</h1>
   </a>
   <form action="" method="post" class="search" title="Search">

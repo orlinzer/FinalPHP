@@ -1,11 +1,11 @@
 <?php
   declare(strict_types = 1);
 
-  session_start();
+  // get the session if exist
+  require_once('utils/Session.php');
 
-  // session_unset($_SESSION["user"]);
+  // reset the session (sign out)
   $_SESSION = array();
-
   session_destroy();
 
   require_once('./views/main/main-top.php');

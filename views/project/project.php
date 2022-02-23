@@ -37,7 +37,7 @@
         />
         <!-- <img src="<?= $user->getImage() ?>" alt="Image" width="48" > -->
         <!-- <?= $project ?> -->
-        <img src="<?= $project->getImage($user) ?>" alt="Image" width="48" >
+        <img src="<?= $project->getImage($user->getName()) ?>" alt="Image" width="48" >
       </div>
     </div>
 

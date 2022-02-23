@@ -1,23 +1,12 @@
 <?php
   declare(strict_types = 1);
 
-  require_once("utils/DB.php");
-  require_once('utils/FS.php');
-
-  // get the user data from the session if exist
+  // get the session if exist
   require_once('utils/Session.php');
 
-  $instance = DB::GetInstance();
-
-  if (isset($_GET['user'])) {
-    $userToShowName = $_GET['user'];
-    $userToShow = $instance->getUser($userToShowName);
-    $userToShowFS = new FS($userToShow);
-  } else if (!isset($project)) {
+  // Check if the user is connected
+  if (!(isset($user) && isset($project)) && !(isset($userToShow) && isset($projectToShow))) {
     header("location: user.php");
-    exit;
-  } else if (!isset($user)) {
-    header("location: sign-in.php");
     exit;
   }
 

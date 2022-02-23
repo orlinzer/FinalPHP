@@ -1,11 +1,8 @@
 <?php
   declare(strict_types = 1);
 
-
-  require_once("utils/DB.php");
-  // require_once("models/User.php");
-
-  require_once("utils/Session.php");
+  // get the session if exist
+  require_once('utils/Session.php');
 
   // Check if the user is connected
   if (isset($user)) {
@@ -13,11 +10,8 @@
     exit;
   }
 
-
   // Processing form data when form is submitted
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $instance = DB::GetInstance();
 
     // Validate name
     $name = trim($_POST["name"] ?? "");

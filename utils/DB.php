@@ -301,12 +301,12 @@
       return $projectsArray;
     }
 
-    public function addProject(User $user, string $project) {
+    public function addProject(string $user, string $project) {
       try {
         self::connect();
         $statement = self::$connection->prepare("INSERT INTO `projects` (`user`, `name`, `views`, `copies`) VALUES (:user, :name, 0, 0)");
         $statement->execute([
-          ':user' => $user->getName(),
+          ':user' => $user,
           ':name' => $project
         ]);
         self::disconnect();
