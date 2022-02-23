@@ -44,9 +44,12 @@
     }
 
     private function connect() {
-      // TODO: try catch
-      $dns = "mysql:host=" . self::$host . ";dbname=" . self::$db . ";charset=" . self::$charset;
-      self::$connection = new PDO($dns, self::$user, self::$pass, self::$opt);
+      try {
+        $dns = "mysql:host=" . self::$host . ";dbname=" . self::$db . ";charset=" . self::$charset;
+        self::$connection = new PDO($dns, self::$user, self::$pass, self::$opt);
+      } catch (Throwable $th) {
+        //throw $th;
+      }
     }
 
     public function disconnect() {
@@ -64,64 +67,81 @@
           ':role' => $user->getRole(),
           ':password' => $password
         ]);
-        self::disconnect();
-      } catch (\Throwable $th) {
+      } catch (Throwable $th) {
         //throw $th;
+      } finally {
+        self::disconnect();
       }
     }
 
     public function getUsers() : array {
-      self::connect();
       $usersArray = array();
-      $result = self::$connection->query("SELECT * FROM `users`");
+      try {
+        self::connect();
+        $result = self::$connection->query("SELECT * FROM `users`");
 
-      while($row = $result->fetchObject('User')) {
-        $usersArray[] = $row;
+        while($row = $result->fetchObject('User')) {
+          $usersArray[] = $row;
+        }
+      } catch (Throwable $th) {
+        //throw $th;
+        $usersArray = array();
+      } finally {
+        self::disconnect();
       }
 
-      self::disconnect();
       return $usersArray;
     }
 
     public function getUser(string $name) : User | false {
-      self::connect();
+      $result = false;
+      try {
+        self::connect();
 
-      $statement = self::$connection->prepare("SELECT `name`,`email`,`phone`,`role` FROM `users` WHERE `name` = :name");
-      $statement->execute([ ':name' => $name ]);
-      $result = $statement->fetchObject("User"); // TODO
-
-      self::disconnect();
+        $statement = self::$connection->prepare("SELECT `name`,`email`,`phone`,`role` FROM `users` WHERE `name` = :name");
+        $statement->execute([ ':name' => $name ]);
+        $result = $statement->fetchObject("User"); // TODO
+      } catch (Throwable $th) {
+        //throw $th;
+      } finally {
+        self::disconnect();
+      }
       return $result;
     }
 
-    public function getUserPassword(string $name) : string {
-      self::connect();
+    public function getUserPassword(string $name) : string | false {
+      $result = false;
+      try {
+        self::connect();
 
-      $statement = self::$connection->prepare("SELECT `password` FROM `users` WHERE `name` = :name");
-      $statement->execute([ ':name' => $name ]);
-      $result = $statement->fetch();
-
-      self::disconnect();
-      if (is_array($result)) {
-        return $result["password"];
-      } else {
-        return "ERROR";
+        $statement = self::$connection->prepare("SELECT `password` FROM `users` WHERE `name` = :name");
+        $statement->execute([ ':name' => $name ]);
+        $result = $statement->fetch();
+      } catch (Throwable $th) {
+        //throw $th;
+      } finally {
+        self::disconnect();
       }
+
+      return $result;
     }
 
     public function isUserExist(string $name) : bool {
-      self::connect();
+      $result = null;
 
-      $statement = self::$connection->prepare("SELECT `name` FROM `users` WHERE `name` = :name");
-      $statement->execute([ ':name' => $name ]);
-      $result = $statement->fetch();
+      try {
+        self::connect();
 
-      self::disconnect();
-      // echo isset($result);
-      // echo is_array($result);
-      // echo count($result);
-      // print_r($result);
-      // echo ($result != null);
+        $statement = self::$connection->prepare("SELECT `name` FROM `users` WHERE `name` = :name");
+        $statement->execute([ ':name' => $name ]);
+        $result = $statement->fetch();
+
+      } catch (Throwable $th) {
+        //throw $th;
+      } finally {
+        self::disconnect();
+      }
+
       return $result != null;
     }
 
@@ -144,9 +164,9 @@
     }
 
     public function updateUserPhone(string $name, string $newPhone) {
-      self::connect();
 
       try {
+        self::connect();
         $statement = self::$connection->prepare("UPDATE `users` SET `phone` = :newPhone WHERE `users`.`name` = :name");
         $statement->execute([ ':newPhone' => $newPhone,
                               ':name' => $name ]);
@@ -160,9 +180,9 @@
     }
 
     public function updateUserEmail(string $name, string $newEmail) {
-      self::connect();
 
       try {
+        self::connect();
         $statement = self::$connection->prepare("UPDATE `users` SET `email` = :newEmail WHERE `users`.`name` = :name");
         $statement->execute([ ':newEmail' => $newEmail,
                               ':name' => $name ]);
@@ -176,9 +196,9 @@
     }
 
     public function updateUserPassword(string $name, string $newPassword) {
-      self::connect();
 
       try {
+        self::connect();
         $statement = self::$connection->prepare("UPDATE `users` SET `password` = :newPassword WHERE `users`.`name` = :name");
         $statement->execute([ ':newPassword' => $newPassword,
                               ':name' => $name ]);
@@ -194,17 +214,21 @@
     // Teachers
 
     public function getTeachers(User $user) : array {
-      self::connect();
-      $teachersArray = array();
-      $statement = self::$connection->prepare("SELECT `teacher` FROM `teacher_student` WHERE `student` = :student");
+      try {
+        self::connect();
+        $teachersArray = array();
+        $statement = self::$connection->prepare("SELECT `teacher` FROM `teacher_student` WHERE `student` = :student");
 
-      $statement->execute([ ':student' => $user->getName() ]);
+        $statement->execute([ ':student' => $user->getName() ]);
 
-      while($row = $statement->fetch()) {
-        $teachersArray[] = $row['teacher'];
+        while($row = $statement->fetch()) {
+          $teachersArray[] = $row['teacher'];
+        }
+      } catch (Throwable $th) {
+        //throw $th;
+      } finally {
+        self::disconnect();
       }
-
-      self::disconnect();
       return $teachersArray;
     }
 
@@ -229,10 +253,8 @@
     public function removeTeacher(string $teacher, string $student) : bool {
       $result = true;
 
-      self::connect();
-
-      $result = false;
       try {
+        self::connect();
         $statement = self::$connection->prepare("DELETE FROM `teacher_student` WHERE `teacher` = :teacher and `student` = :student");
         $statement->execute([
           ':teacher' => $teacher,
@@ -249,23 +271,27 @@
     }
 
     public function isATeacher(string $teacher, string $student) {
-      self::connect();
-      $teachersArray = array();
-      $statement = self::$connection->prepare("SELECT * FROM `teacher_student` WHERE `teacher` = :teacher and `student` = :student");
-
-      $statement->execute([
-        ':teacher' => $teacher,
-        ':student' => $student
-      ]);
-
       $result = false;
-      if ($statement->fetch()) {
-        $result = true;
+      try {
+        self::connect();
+        $teachersArray = array();
+        $statement = self::$connection->prepare("SELECT * FROM `teacher_student` WHERE `teacher` = :teacher and `student` = :student");
+
+        $statement->execute([
+          ':teacher' => $teacher,
+          ':student' => $student
+        ]);
+
+        if ($statement->fetch()) {
+          $result = true;
+        }
+      } catch (Throwable $th) {
+        //throw $th;
+        $result = false;
+      } finally {
+        self::disconnect();
+        return $result;
       }
-
-      self::disconnect();
-
-      return $result;
     }
 
     public function getNoOfStudents(string $teacher) {
@@ -289,16 +315,21 @@
     // Projects
 
     public function getProjects() : array {
-      self::connect();
       $projectsArray = array();
-      $result = self::$connection->query("SELECT * FROM `projects`");
+      try {
+        self::connect();
+        $result = self::$connection->query("SELECT * FROM `projects`");
 
-      while($row = $result->fetchObject('Project')) {
-        $projectsArray[] = $row;
+        while($row = $result->fetchObject('Project')) {
+          $projectsArray[] = $row;
+        }
+      } catch (Throwable $th) {
+        $projectsArray = array();
+        //throw $th;
+      } finally {
+        self::disconnect();
+        return $projectsArray;
       }
-
-      self::disconnect();
-      return $projectsArray;
     }
 
     public function addProject(string $user, string $project) {
@@ -309,49 +340,58 @@
           ':user' => $user,
           ':name' => $project
         ]);
-        self::disconnect();
       } catch (Throwable $th) {
         //throw $th;
+      } finally {
+        self::disconnect();
       }
     }
 
     public function isProjectExist(string $user, string $project) : bool {
-      self::connect();
+      $result = null;
 
-      $statement = self::$connection->prepare("SELECT *  FROM `projects` WHERE `user` = :user and `name` = :name");
-      $statement->execute([
-        ':user' => $user,
-        ':name' => $project
-      ]);
-      $result = $statement->fetch();
+      try {
+        self::connect();
 
-      self::disconnect();
-      // echo isset($result);
-      // echo is_array($result);
-      // echo count($result);
-      // print_r($result);
-      // echo ($result != null);
-      return $result != null;
+        $statement = self::$connection->prepare("SELECT *  FROM `projects` WHERE `user` = :user and `name` = :name");
+        $statement->execute([
+          ':user' => $user,
+          ':name' => $project
+        ]);
+        $result = $statement->fetch();
+      } catch (Throwable $th) {
+        //throw $th;
+        $result = null;
+      } finally {
+        self::disconnect();
+        return $result != null;
+      }
     }
 
     //
 
     public function calculateProjectsFromEveryUser() {
-      self::connect();
-      $projectArr = array();
-      $result = self::$connection->query("SELECT COUNT(*) as `P` FROM `project`");
-      $projectCount = $result->fetch(PDO::FETCH_ASSOC);
+      $projectsArr = array();
 
-      for ($i = 0; $i < $projectCount['P']; $i++)
-      {
-        $statement = self::$connection->prepare("SELECT COUNT(`users`.`name`) as `count`, `projects`.`user`
-        FROM `projects`, `users` WHERE `projects`.`name`=:name and `projects`.`user` = `users`.`user` GROUP BY `projects`.`user`");
-        $statement->execute([ ':name' => $i ]);
-        $projectsArr[] = $statement->fetch(PDO::FETCH_ASSOC);
+      try {
+        self::connect();
+        $result = self::$connection->query("SELECT COUNT(*) as `P` FROM `project`");
+        $projectCount = $result->fetch(PDO::FETCH_ASSOC);
+
+        for ($i = 0; $i < $projectCount['P']; $i++)
+        {
+          $statement = self::$connection->prepare("SELECT COUNT(`users`.`name`) as `count`, `projects`.`user`
+          FROM `projects`, `users` WHERE `projects`.`name`=:name and `projects`.`user` = `users`.`user` GROUP BY `projects`.`user`");
+          $statement->execute([ ':name' => $i ]);
+          $projectsArr[] = $statement->fetch(PDO::FETCH_ASSOC);
+        }
+      } catch (Throwable $th) {
+        //throw $th;
+        $projectsArr = array();
+      } finally {
+        self::disconnect();
+        return $projectsArr;
       }
-
-      self::disconnect();
-      return $projectsArr;
     }
   }
 ?>
