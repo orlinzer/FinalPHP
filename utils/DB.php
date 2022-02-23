@@ -1,8 +1,6 @@
 <?php
   declare(strict_types = 1);
 
-  // TODO: try / catch
-
   require_once "models/User.php";
   require_once "models/Project.php";
 
@@ -100,7 +98,7 @@
 
         $statement = self::$connection->prepare("SELECT `name`,`email`,`phone`,`role` FROM `users` WHERE `name` = :name");
         $statement->execute([ ':name' => $name ]);
-        $result = $statement->fetchObject("User"); // TODO
+        $result = $statement->fetchObject("User");
       } catch (Throwable $th) {
         //throw $th;
       } finally {
