@@ -1,8 +1,8 @@
 <?php
   declare(strict_types = 1);
 
-  require_once "../models/User.php";
-  require_once "../models/Project.php";
+  require_once "models/User.php";
+  require_once "models/Project.php";
 
   class DB {
     private static $host;
@@ -77,7 +77,7 @@
       return $usersArray;
     }
 
-    public function getUser(string $name) : User {
+    public function getUser(string $name) : User | false {
       self::connect();
 
       $statement = self::$connection->prepare("SELECT `name`,`email`,`phone`,`role` FROM `users` WHERE `name` = :name");
@@ -183,6 +183,116 @@
       } finally {
         self::disconnect();
       }
+    }
+
+    // Teachers
+
+    public function getTeachers(User $user) : array {
+      self::connect();
+      $teachersArray = array();
+      $statement = self::$connection->prepare("SELECT `teacher` FROM `teacher_student` WHERE `student` = :student");
+
+      $statement->execute([ ':student' => $user->getName() ]);
+
+      while($row = $statement->fetch()) {
+        $teachersArray[] = $row['teacher'];
+      }
+
+      self::disconnect();
+      return $teachersArray;
+    }
+
+    public function addTeacher(string $teacher, string $student) : bool {
+      $result = true;
+      try {
+        self::connect();
+        $statement = self::$connection->prepare("INSERT INTO `teacher_student` (`teacher`, `student`) VALUES (:teacher, :student)");
+        $statement->execute([
+          ':teacher' => $teacher,
+          ':student' => $student
+        ]);
+      } catch (Throwable $th) {
+        //throw $th;
+        $result = false;
+      } finally {
+        self::disconnect();
+        return $result;
+      }
+    }
+
+    public function removeTeacher(string $teacher, string $student) : bool {
+      $result = true;
+
+      self::connect();
+
+      $result = false;
+      try {
+        $statement = self::$connection->prepare("DELETE FROM `teacher_student` WHERE `teacher` = :teacher and `student` = :student");
+        $statement->execute([
+          ':teacher' => $teacher,
+          ':student' => $student
+        ]);
+        $result = $statement->fetch();
+      } catch (Throwable $th) {
+        //throw $th;
+        $result = false;
+      } finally {
+        self::disconnect();
+        return $result;
+      }
+    }
+
+    public function isATeacher(string $teacher, string $student) {
+      self::connect();
+      $teachersArray = array();
+      $statement = self::$connection->prepare("SELECT * FROM `teacher_student` WHERE `teacher` = :teacher and `student` = :student");
+
+      $statement->execute([
+        ':teacher' => $teacher,
+        ':student' => $student
+      ]);
+
+      $result = false;
+      if ($statement->fetch()) {
+        $result = true;
+      }
+
+      self::disconnect();
+
+      return $result;
+    }
+
+    public function getNoOfStudents(string $teacher) {
+      $result = 0;
+      try {
+        self::connect();
+        $teachersArray = array();
+        $statement = self::$connection->prepare("SELECT `student` FROM `teacher_student` WHERE `teacher` = :teacher");
+
+        $statement->execute([ ':teacher' => $teacher ]);
+
+        $result = count($statement->fetch());
+      } catch (Throwable $th) {
+        //throw $th;
+      } finally {
+        self::disconnect();
+        return $result;
+      }
+    }
+
+    // Projects
+
+    public function getProjects() : array {
+      self::connect();
+      $projectsArray = array();
+      $result = self::$connection->query("SELECT * FROM `projects`");
+
+      while($row = $result->fetchObject('Project')) {
+        $projectsArray[] = $row;
+      }
+
+      self::disconnect();
+      return $projectsArray;
     }
 
     public function calculateProjectsFromEveryUser() {

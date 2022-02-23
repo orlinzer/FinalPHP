@@ -1,19 +1,21 @@
 <?php
   declare(strict_types = 1);
 
-  require_once("../utils/DB.php");
-  require_once("../models/User.php");
+
+  require_once("utils/DB.php");
+  // require_once("models/User.php");
+
+  require_once("utils/Session.php");
 
   // Check if the user is connected
-  session_start();
-  if (isset($_SESSION["user"])) {
+  if (isset($user)) {
     header("location: user.php");
     exit;
   }
 
+
   // Processing form data when form is submitted
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    echo "test<br>";
 
     $instance = DB::GetInstance();
 
@@ -39,33 +41,26 @@
 
     $hashPassword = $instance->getUserPassword($name);
 
-    echo $password . "<br>";
-    echo $hashPassword . "<br>";
+    // echo $password . "<br>";
+    // echo $hashPassword . "<br>";
 
     if (password_verify($password, $hashPassword)) {
-      echo "Verified!<br>";
+      // echo "Verified!<br>";
 
       $user = $instance->getUser($name);
 
-      print($user);
+      // print($user); // DBG
 
       $_SESSION["user"] = $user;
       header("location: user.php");
       exit;
     } else {
-      echo "Invalid username or password!<br>";
+      // echo "Invalid username or password!<br>";
     }
   }
+
+
+  require_once('./views/main-top.php');
+  require_once('./views/sign-in/sign-in.htm');
+  require_once('./views/main-bottom.php');
 ?>
-
-<form action='' method='post'>
-  <label for='name'>Name:</label>
-  <input type='text' name='name' id='name'><br>
-
-  <label for='password'>Password:</label>
-  <input type='password' name='password' id='password'><br>
-
-  <input type='submit' value='Sign-in'>
-</form>
-<a href="sign-up.php">Sign Up</a>
-<a href="recover-password.php">Recover Password</a>

@@ -1,0 +1,97 @@
+<div class="card">
+  <h2>Sign Up</h2>
+  <form action="" method="post" enctype="multipart/form-data">
+    <div class="fields">
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Please Enter Name"
+        title="Please Enter Name"
+        required
+      />
+      <i style="color: #f00"><?= $nameErr ?></i>
+
+      <label for="about">About:</label>
+      <textarea
+        id="about"
+        name="about"
+        rows="10"
+        cols="50"
+        placeholder="Please Enter Text About Yourself"
+        title="Please Enter Text About Yourself"
+      ></textarea>
+      <i style="color: #f00"><?= $aboutErr ?></i>
+
+      <label for="image">Image:</label>
+      <input
+        type="file"
+        id="image"
+        name="image"
+        accept="image/webp,
+      image/svg,
+      image/avif,
+      image/png,
+      image/apng,
+      image/gif,
+      image/jpg,
+      image/jpeg,
+      image/jfif,
+      image/pjpeg,
+      image/pjp"
+        title="Please Select an Profile Image"
+      />
+      <i style="color: #f00"><?= $imageErr ?></i>
+
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Please Enter Email"
+        title="Please Enter Email"
+        required
+      />
+      <i style="color: #f00"><?= $emailErr ?></i>
+
+      <label for="phone">Phone:</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        placeholder="Please Enter Phone"
+        title="Please Enter Phone"
+      />
+      <i style="color: #f00"><?= $phoneErr ?></i>
+
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Please Enter Password"
+        title="Please Enter Password"
+        minlength="8"
+        required
+      />
+      <i style="color: #f00"><?= $passwordErr ?></i>
+
+      <label for="confirm-password">Confirm Password:</label>
+      <input
+        type="password"
+        id="confirm-password"
+        name="confirm-password"
+        placeholder="Please Confirm The Password"
+        title="Please Confirm The Password"
+        minlength="8"
+        required
+      />
+      <i style="color: #f00"><?= $confirmPasswordErr ?></i>
+    </div>
+
+    <input type="submit" value="Sign Up" title="Sign Up" />
+  </form>
+  <a href="sign-in.php">Sign In</a>
+  <a href="recover-password.php">Recover Password</a>
+</div>

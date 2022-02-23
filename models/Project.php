@@ -7,7 +7,7 @@
     protected int $views;
     protected int $copies;
 
-    public function setName(string $name) : User {
+    public function setName(string $name) : Project {
       $this->$name = $name;
       return $this;
     }
@@ -16,7 +16,7 @@
       return $this->$name;
     }
 
-    public function setViews(int $views): User {
+    public function setViews(int $views): Project {
       $this->$views = $views;
       return $this;
     }
@@ -25,7 +25,7 @@
       return $this->$views;
     }
 
-    public function setCopies(int $copies): User {
+    public function setCopies(int $copies): Project {
       $this->$copies = $copies;
       return $this;
     }

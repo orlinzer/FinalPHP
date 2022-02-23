@@ -1,5 +1,6 @@
 header {
   height: 4em;
+  min-height: 4em;
   width: 100vw;
 
   background-color: #aaa;
@@ -61,6 +62,10 @@ header {
   align-items: center;
 
   gap: 0.5em;
+}
+
+.user-menu-button {
+  border-radius: 50%;
 }
 
 .search {

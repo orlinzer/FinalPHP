@@ -1,12 +1,13 @@
 <?php
   declare(strict_types = 1);
 
-  require_once("../utils/DB.php");
-  require_once("../models/User.php");
+  require_once("utils/DB.php");
+  // require_once("../models/User.php");
+
+  require_once("utils/Session.php");
 
   // Check if the user is connected
-  session_start();
-  if (isset($_SESSION["user"])) {
+  if (isset($user)) {
     header("location: user.php");
     exit;
   }
@@ -44,7 +45,7 @@
       $fileName = $_FILES['image']['tmp_name'];
       if (file_exists($fileName)) {
 
-        mkdir("..\\users\\" . $name);
+        mkdir("users" . $name);
 
         // $_FILES['image']['name'];
         // $_FILES['image']['type'];
@@ -112,41 +113,8 @@
       exit;
     }
   }
+
+  require_once('./views/main-top.php');
+  require_once('./views/sign-up/sign-up.htm');
+  require_once('./views/main-bottom.php');
 ?>
-
-<form action='' method='post' enctype="multipart/form-data">
-  <label for='name'>Name:</label>
-  <input type='text' name='name' id='name' value="<?=$name?>">
-  <i style="color: #f00"><?=$nameErr?></i>
-  <br>
-
-  <label for="image">Image</label>
-  <input type="file" name="image" id="image" value="<?=$image?>">
-  <i style="color: #f00"><?=$imageErr?></i>
-  <br>
-
-  <label for='email'>Email:</label>
-  <input type='email' name='email' id='email' value="<?=$email?>">
-  <i style="color: #f00"><?=$emailErr?></i>
-  <br>
-
-  <label for='phone'>Phone:</label>
-  <input type='text' name='phone' id='phone' value="<?=$phone?>">
-  <i style="color: #f00"><?=$phoneErr?></i>
-  <br>
-
-  <label for='password'>Password:</label>
-  <input type='password' name='password' id='password' value="<?=$password?>">
-  <i style="color: #f00"><?=$passwordErr?></i>
-  <br>
-
-  <label for='confirm-password'>Confirm Password:</label>
-  <input type='password' name='confirm-password' id='confirm-password' value="<?=$confirmPassword?>">
-  <i style="color: #f00"><?=$confirmPasswordErr?></i>
-  <br>
-
-  <input type='submit' value='Create'>
-</form>
-
-<a href="sign-in.php">Sign In</a>
-<a href="recover-password.php">Recover Password</a>

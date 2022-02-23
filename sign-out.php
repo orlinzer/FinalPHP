@@ -7,7 +7,8 @@
   $_SESSION = array();
 
   session_destroy();
+
+  require_once('./views/main-top.php');
+  require_once('./views/sign-out/sign-out.htm');
+  require_once('./views/main-bottom.php');
 ?>
-<h2>You are sign out</h2>
-<a href="sign-in.php">Sign In</a>
-<a href="sign-up.php">Sign Up</a>

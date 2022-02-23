@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="views/user-menu/user-menu.css" />
 
     <script src="views/header/header.js" defer></script>
+    <!-- <script src="views/sign-up/sign-up.js" defer></script> -->
 
   </head>
   <body>
@@ -22,16 +23,9 @@
       require_once("header/header.php");
       ?>
     <?php
-      require_once("menu/menu.php");
+      require_once("menu/menu.htm");
     ?>
     <?php
       require_once("user-menu/user-menu.php");
     ?>
     <main>
-      <?php
-        require_once('about.html');
-      ?>
-    </main>
-    <footer>Created by Or Linzer, Hilal Sharkawi and Itamar Kalimi</footer>
-  </body>
-</html>

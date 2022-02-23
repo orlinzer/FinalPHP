@@ -36,9 +36,24 @@ body {
 }
 
 main {
-  flex-grow: 1;
+  width: 100vw;
+  min-height: calc(100vh - 8em);
+
+  padding: 1em;
+
+  /* flex-grow: 1; */
 
   overflow-x: hidden;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: flex-start;
+
+  align-items: center;
+
+  gap: 1em;
 }
 
 footer {
@@ -64,6 +79,91 @@ footer {
   align-items: center;
 
   gap: 0.5em;
+}
+
+.card {
+  background-color: #ddd;
+  border-radius: 1em;
+  padding: 0.5em 1em;
+
+  display: flex;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 0.5em;
+}
+
+.card form {
+  display: flex;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 0.5em;
+}
+
+.fields {
+  display: grid;
+
+  grid-template-columns: max-content max-content;
+
+  justify-content: center;
+  justify-items: start;
+
+  align-content: center;
+  align-items: center;
+
+  gap: 0.5em;
+}
+
+textarea {
+  resize: none;
+}
+
+.users {
+  width: 60%;
+  padding: 0.5em 1em;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1em;
+}
+
+.a,
+.a:visited,
+.a:hover,
+.a:link {
+  color: black;
+  text-decoration: none;
+}
+
+.user {
+  display: block;
+
+  background-color: #ddd;
+
+  border-radius: 1em;
+
+  width: 100%;
+
+  padding: 0.5em 1em;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 /* #endregion generic */
