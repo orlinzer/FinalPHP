@@ -13,15 +13,12 @@
     $userToShowName = $_GET['user'];
     $userToShow = $instance->getUser($userToShowName);
     $userToShowFS = new FS($userToShow);
-  } else if (!isset($project)) {
-    header("location: user.php");
-    exit;
   } else if (!isset($user)) {
     header("location: sign-in.php");
     exit;
   }
 
   require_once('./views/main/main-top.php');
-  require_once('./views/project/project.php');
+  require_once('./views/about/about.html');
   require_once('./views/main/main-bottom.php');
 ?>

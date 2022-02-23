@@ -20,7 +20,7 @@
 
 
 
-  require_once('views/main-top.php');
+  require_once('views/main/main-top.php');
   require_once('views/users/users.php');
-  require_once('views/main-bottom.php');
+  require_once('views/main/main-bottom.php');
 ?>

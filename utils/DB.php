@@ -1,6 +1,8 @@
 <?php
   declare(strict_types = 1);
 
+  // TODO: try / catch
+
   require_once "models/User.php";
   require_once "models/Project.php";
 
@@ -52,16 +54,20 @@
     }
 
     public function addUser(User $user, string $password) {
-      self::connect();
-      $statement = self::$connection->prepare("INSERT INTO `users` (`name`, `email`, `phone`, `password`, `role`) VALUES (:name, :email, :phone, :password, :role)");
-      $statement->execute([
-        ':name' => $user->getName(),
-        ':email' => $user->getEmail(),
-        ':phone' => $user->getPhone(),
-        ':role' => $user->getRole(),
-        ':password' => $password
-      ]);
-      self::disconnect();
+      try {
+        self::connect();
+        $statement = self::$connection->prepare("INSERT INTO `users` (`name`, `email`, `phone`, `password`, `role`) VALUES (:name, :email, :phone, :password, :role)");
+        $statement->execute([
+          ':name' => $user->getName(),
+          ':email' => $user->getEmail(),
+          ':phone' => $user->getPhone(),
+          ':role' => $user->getRole(),
+          ':password' => $password
+        ]);
+        self::disconnect();
+      } catch (\Throwable $th) {
+        //throw $th;
+      }
     }
 
     public function getUsers() : array {
@@ -294,6 +300,41 @@
       self::disconnect();
       return $projectsArray;
     }
+
+    public function addProject(User $user, string $project) {
+      try {
+        self::connect();
+        $statement = self::$connection->prepare("INSERT INTO `projects` (`user`, `name`, `views`, `copies`) VALUES (:user, :name, 0, 0)");
+        $statement->execute([
+          ':user' => $user->getName(),
+          ':name' => $project
+        ]);
+        self::disconnect();
+      } catch (Throwable $th) {
+        //throw $th;
+      }
+    }
+
+    public function isProjectExist(string $user, string $project) : bool {
+      self::connect();
+
+      $statement = self::$connection->prepare("SELECT *  FROM `projects` WHERE `user` = :user and `name` = :name");
+      $statement->execute([
+        ':user' => $user,
+        ':name' => $project
+      ]);
+      $result = $statement->fetch();
+
+      self::disconnect();
+      // echo isset($result);
+      // echo is_array($result);
+      // echo count($result);
+      // print_r($result);
+      // echo ($result != null);
+      return $result != null;
+    }
+
+    //
 
     public function calculateProjectsFromEveryUser() {
       self::connect();

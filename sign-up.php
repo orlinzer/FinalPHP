@@ -40,24 +40,13 @@
       $nameErr = "This username already exists.";
     }
 
+    $user = new User();
+    $user->setName($name);
+
     // TODO: create only after validation
     if (isset($_FILES['image']['tmp_name'])) {
       $fileName = $_FILES['image']['tmp_name'];
-      if (file_exists($fileName)) {
-
-        mkdir("users" . $name);
-
-        // $_FILES['image']['name'];
-        // $_FILES['image']['type'];
-        // $_FILES['image']['size'];
-        // $_FILES['image']['tmp_name'];
-        // $_FILES['image']['error'];
-        // $_FILES['image']['full_path'];
-        $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-
-        move_uploaded_file($fileName, "..\\users\\" . $name . "\\user_image." . $ext);
-        // move_uploaded_file($fileName, "user_image." . $ext);
-      }
+      $user->setImage($fileName);
     }
 
     if (!isset($_POST['email'])) { exit; }
@@ -96,8 +85,6 @@
 
       $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-      $user = new User();
-      $user->setName($name);
       $user->setEmail($email);
       $user->setPhone($phone);
 
@@ -114,7 +101,7 @@
     }
   }
 
-  require_once('./views/main-top.php');
+  require_once('./views/main/main-top.php');
   require_once('./views/sign-up/sign-up.htm');
-  require_once('./views/main-bottom.php');
+  require_once('./views/main/main-bottom.php');
 ?>

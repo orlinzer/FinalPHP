@@ -166,4 +166,193 @@ textarea {
   cursor: pointer;
 }
 
+.user-menu {
+  position: absolute;
+
+  top: 4em;
+  right: 0;
+
+  height: calc(100vh - 8em);
+  width: 16em;
+  max-width: 100vw;
+
+  z-index: 1;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  padding: 0.5em 1em;
+
+  display: flex;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  justify-content: flex-start;
+
+  align-items: flex-start;
+
+  gap: 0.5em;
+
+  background-color: #aaa;
+
+  transition-property: width opacity;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+  transition-duration: 0.5s;
+}
+
+.user-menu.hidden {
+  width: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+nav {
+  position: absolute;
+
+  top: 4em;
+  left: 0;
+
+  height: calc(100vh - 8em);
+  width: 16em;
+  max-width: 100vw;
+
+  z-index: 2;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  padding: 0.5em 1em;
+
+  display: flex;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  justify-content: flex-start;
+
+  align-items: flex-start;
+
+  gap: 0.5em;
+
+  background-color: #aaa;
+
+  transition-property: width opacity;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+  transition-duration: 0.5s;
+}
+
+nav.hidden {
+  width: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+header {
+  height: 4em;
+  min-height: 4em;
+  width: 100vw;
+
+  background-color: #aaa;
+
+  margin: 0;
+  padding: 0.5em;
+
+  overflow: hidden;
+
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  justify-content: flex-start;
+
+  align-items: center;
+
+  gap: 0.5em;
+}
+
+.logo {
+  display: flex;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  justify-content: flex-start;
+
+  align-items: center;
+
+  gap: 0.5em;
+}
+
+.properties {
+  flex-grow: 1;
+
+  display: flex;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  gap: 0.5em;
+}
+
+.user-menu-button {
+  border-radius: 50%;
+}
+
+.search {
+  height: 3em;
+  border-radius: 1.5em;
+  background-color: #fff;
+}
+
+.search {
+  padding: 0 12px;
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  justify-content: flex-start;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+input[type="image"] {
+  width: 24px;
+  height: 24px;
+}
+
+input[type="search"] {
+  height: 100%;
+  border-width: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.menu-button,
+.user-menu-button {
+  cursor: pointer;
+}
+
 /* #endregion generic */

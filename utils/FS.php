@@ -7,6 +7,7 @@
   class FS {
     private static $PATH = "users/";
     private static $USER_IMAGE_NAME = "user_image";
+    private static $PROJECT_IMAGE_NAME = "project_image";
     private static $USER_ABOUT_NAME = "user_about.txt";
 
     private User | null $user;
@@ -295,10 +296,10 @@
     }
 
     public function createProjectDir() : bool {
-      if ((!(self::$PATH = $this->getProjectPath())) || is_dir(self::$PATH)) { return false; }
+      if ((!($path = $this->getProjectPath())) || is_dir($path)) { return false; }
 
       try {
-        mkdir(self::$PATH);
+        mkdir($path);
       } catch (Throwable $th) {
         return false;
       }
@@ -343,36 +344,40 @@
     }
 
     public function setProjectImage(string $image) : bool {
-      if ($this->user === null) { return false; }
+      if ($this->user === null || $this->project === null) { return false; }
+      if (!file_exists($image)) { return false; }
 
-      // $extension = pathinfo($image)["extension"];
-      $extension = pathinfo($image, PATHINFO_EXTENSION)["extension"];
+      $extension = $_FILES['image']['type'];
 
       if (!file_exists($image)) { return false; }
 
-      if ($extension !== "webp" &&
-          $extension !== "svg" &&
-          $extension !== "avif" &&
-          $extension !== "png" &&
-          $extension !== "apng" &&
-          $extension !== "gif" &&
-          $extension !== "jpg" &&
-          $extension !== "jpeg" &&
-          $extension !== "jfif" &&
-          $extension !== "pjpeg" &&
-          $extension !== "pjp") { return false; }
+      if ($extension !== "image/webp" &&
+          $extension !== "image/svg" &&
+          $extension !== "image/avif" &&
+          $extension !== "image/png" &&
+          $extension !== "image/apng" &&
+          $extension !== "image/gif" &&
+          $extension !== "image/jpg" &&
+          $extension !== "image/jpeg" &&
+          $extension !== "image/jfif" &&
+          $extension !== "image/pjpeg" &&
+          $extension !== "image/pjp") { return false; }
 
-      move_uploaded_file($image, self::$PATH . $this->name . "/" . self::$USER_IMAGE_NAME . "." . $extension);
+      $extension = str_replace('image/', '', $extension);
+
+      $this->createProjectDir();
+
+      move_uploaded_file($image, $this->getProjectPath() . "/" . self::$PROJECT_IMAGE_NAME . "." . $extension);
 
       return true;
     }
 
     public function getProjectImage() : string {
       // Return the default user image
-      if ($this->user == null) { return '/FinalPHP/images/design_services_black_48dp.svg'; }
+      if (!($path = $this->getProjectPath())) { return '/FinalPHP/images/design_services_black_48dp.svg'; }
 
       // Return the user image file if exist
-      $imagePath = self::$PATH . $this->user->getName() . "/" . self::$USER_IMAGE_NAME . ".";
+      $imagePath = $path . "/" . self::$PROJECT_IMAGE_NAME . ".";
 
       if (is_file($imagePath . "webp")) { return  $imagePath . "webp"; }
       if (is_file($imagePath . "svg")) { return   $imagePath . "svg"; }

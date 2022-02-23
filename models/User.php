@@ -15,12 +15,7 @@
     // protected array $projects;
 
     // public function __construct(string $name = "", string $email = "", string $phone = "", string $role = "USER") {
-    public function __construct() {
-      $this->role = "USER";
-      $this->students = array();
-      $this->teachers = array();
-      $this->projects = array();
-    }
+    public function __construct() {}
 
     public function setName(string $name) : User {
       $this->name = $name;
@@ -100,20 +95,14 @@
       return $this->name == $other->name;
     }
 
-    public function setImage(string $fileName) {
-      $this->image = $fileName;
+    public function setImage(string $fileName) : bool {
+      $fs = new FS($this);
+      return $fs->setUserImage($fileName);
     }
 
     public function getImage() : string {
       $fs = new FS($this);
       return $fs->getUserImage();
-    }
-
-    public function setImageFile(string $fileName) {
-      $fs = new FS($this);
-      if ($fs->setUserImage($fileName)) {
-        $this->setImage($fs->getUserImage());
-      }
     }
 
     public function setAbout(string $about) {

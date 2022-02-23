@@ -18,7 +18,7 @@
       }
     }
 
-  require_once('views/main-top.php');
+  require_once('views/main/main-top.php');
   require_once('views/projects/projects.php');
-  require_once('views/main-bottom.php');
+  require_once('views/main/main-bottom.php');
 ?>

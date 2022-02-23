@@ -10,6 +10,10 @@
   if (isset($_SESSION["user"])) {
     $user = $_SESSION["user"];
     $fs = new FS($user);
+    if (isset($_SESSION["project"])) {
+      $project = $_SESSION["project"];
+      $fs = new FS($user, $project);
+    }
   }
 
 ?>
